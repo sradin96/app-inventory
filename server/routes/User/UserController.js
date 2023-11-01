@@ -20,11 +20,18 @@ const createUser = async (req, res) => {
 
 		const token = jwt.sign({ userId: user.id }, SECRET_KEY);
 
+		await prisma.userRoles.create({
+			data: {
+				userId: user.id,
+				roleId: 2
+			}
+		})
+
 		console.log(user, token);
 
 		res.json({ user, token });
 	} catch (error) {
-		res.status(500).json({ error: 'Something Went Wrong!' });
+		res.status(500).json({ error: 'Something Went Wrong!' })
 	}
 }
 
@@ -40,7 +47,10 @@ const getUsers = async (req, res) => {
 const loginUser = async (req, res) => {
 	const { email, password } = req.body;
 
-	const user = await prisma.user.findUnique({ where: { email } });
+	const user = await prisma.user.findUnique({
+		where: { email },
+		include: { userRoles: true }
+	});
 	if (!user) {
 		return res.status(404).json({ message: 'User not found' });
 	}
@@ -60,10 +70,16 @@ const loginUser = async (req, res) => {
 	}
 
 	const token = jwt.sign({ userId: user.id }, SECRET_KEY);
-	const role = 'Admin';
+
+	const roleName = await prisma.roles.findUnique({
+		where: {
+			id: user.userRoles[0].roleId
+		}
+	});
 
 	res.cookie('token', token, cookieOptions);
-	res.cookie('role', role, cookieOptions)
+	res.cookie('role', roleName.name, cookieOptions)
+
 
 	res.json({ userData });
 }
