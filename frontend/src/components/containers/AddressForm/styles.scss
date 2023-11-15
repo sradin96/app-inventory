@@ -1,0 +1,23 @@
+@import '../../../styles/base/variables';
+
+.address-form {
+	background-color: $white;
+	padding: 20px;
+	border-radius: 12px;
+}
+
+.address-form__title {
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid rgba($black, .1);
+}
+
+.address-form__form {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.address-form__btn {
+	margin-top: 10px;
+	margin-left: auto;
+}

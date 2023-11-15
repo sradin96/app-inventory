@@ -1,0 +1,29 @@
+@import '../../../styles/base/variables';
+
+.admin-page__holder {
+	display: flex
+}
+
+.admin-page__aside {
+	background-color: $white;
+	min-width: 220px;
+	padding: 40px 0;
+	min-height: calc(100vh - 170px);
+}
+
+.admin-page__container {
+	padding: 40px;
+	flex-grow: 1;
+}
+
+.admin-page__aside-item {
+	padding: 10px 20px;
+	border-bottom: 1px solid rgba($blue, .3);
+	color: $blue;
+	font-weight: 700;
+	font-size: 16px;
+
+	&:first-child {
+		padding-top: 0;
+	}
+}

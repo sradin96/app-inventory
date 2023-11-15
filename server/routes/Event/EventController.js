@@ -9,7 +9,7 @@ const createEvent = async (req, res) => {
 				name,
 				startDate,
 				endDate
-			}
+			},
 		});
 		res.json(event);
 	}
@@ -17,6 +17,15 @@ const createEvent = async (req, res) => {
 		console.log(error);
 	}
 }
+
+// const itemEvent = async (req, res) => {
+// 	try {
+
+// 	}
+// 	catch (error) {
+// 		console.log(error);
+// 	}
+// }
 
 const getEvents = async (req, res) => {
 	try {

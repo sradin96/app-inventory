@@ -1,3 +1,5 @@
+@import './variables';
+
 .wrap {
 	max-width: 1240px;
 	padding: 0 20px;
@@ -6,4 +8,35 @@
 
 .main {
 	overflow: hidden;
+	background-color: $whitesmoke;
+	padding-top: 176px;
+}
+
+.main--dark {
+	background-color: $blue;
+}
+
+.content-holder {
+	padding: 60px 0;
+}
+
+.btn {
+	padding: 9px 20px 10px 20px;
+	border-radius: 100px;
+	border: 2px solid $black;
+	color: $black;
+	background-color: transparent;
+	font-weight: 700;
+	transition: all .4s ease-in;
+
+	&:hover {
+		background-color: $black;
+		color: $white;
+	}
+}
+
+.title {
+	font-size: 36px;
+	font-weight: 700;
+	margin-bottom: 30px;
 }

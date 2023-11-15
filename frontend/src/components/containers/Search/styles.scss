@@ -1,0 +1,29 @@
+@import '../../../styles/base/variables';
+
+.search {
+	flex-grow: 1;
+	background-color: $white;
+	border-radius: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px;
+}
+
+.search__input {
+	background-color: transparent;
+	outline: none;
+	border: none;
+	flex-grow: 1;
+	font-size: 18px;
+}
+
+.search__btn {
+	background-color: transparent;
+	border: none;
+
+	svg {
+		font-size: 20px;
+		fill: $blue;
+	}
+}

@@ -2,7 +2,6 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const cookie = require('cookie');
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -11,13 +10,14 @@ const createUser = async (req, res) => {
 	const hash = await bcrypt.hash(password, 10);
 	try {
 		const user = await prisma.user.create({
-				data: {
-						email,
-						username,
-						password: hash
-				}
+			data: {
+				email,
+				username,
+				password: hash,
+				blocked: false
+			}
 		})
-
+		res.header('Access-Control-Allow-Credentials', true);
 		const token = jwt.sign({ userId: user.id }, SECRET_KEY);
 
 		await prisma.userRoles.create({
@@ -27,7 +27,17 @@ const createUser = async (req, res) => {
 			}
 		})
 
+		const cookieOptions = {
+			maxAge: 24 * 60 * 60 * 1000,
+			httpOnly: false,
+		}
+
 		console.log(user, token);
+
+		res.cookie('token', token, cookieOptions);
+		res.cookie('role', 'user', cookieOptions)
+		res.cookie('user', user.username, cookieOptions)
+		res.cookie('userId', user.id, cookieOptions)
 
 		res.json({ user, token });
 	} catch (error) {
@@ -47,6 +57,10 @@ const getUsers = async (req, res) => {
 const loginUser = async (req, res) => {
 	const { email, password } = req.body;
 
+	if (!email) {
+    return res.status(400).json({ error: 'Email is required' });
+  }
+	res.header('Access-Control-Allow-Credentials', true);
 	const user = await prisma.user.findUnique({
 		where: { email },
 		include: { userRoles: true }
@@ -61,7 +75,8 @@ const loginUser = async (req, res) => {
 	}
 
 	const cookieOptions = {
-		maxAge: 24 * 60 * 60 * 1000
+		maxAge: 24 * 60 * 60 * 1000,
+		httpOnly: false,
 	}
 
 	const userData = {
@@ -79,32 +94,49 @@ const loginUser = async (req, res) => {
 
 	res.cookie('token', token, cookieOptions);
 	res.cookie('role', roleName.name, cookieOptions)
+	res.cookie('user', userData.username, cookieOptions)
+	res.cookie('userId', user.id, cookieOptions)
 
 	res.json({ userData });
 }
 
 const updateUser = async (req, res) => {
 	try {
-		const { email, password, name } = req.body;
-		const currentEmail = req.params.email;
+		const { email, password, name, phone, address, city, zipcode } = req.body;
+		const { id } = req.params;
 		let updateData = {};
 
-		if (email) {
+		if (email?.length) {
 			updateData.email = email;
 		}
 
-		if (password) {
+		if (password?.length) {
 			const hashedPassword = await bcrypt.hash(password, 10);
 			updateData.password = hashedPassword;
 		}
 
-		if (name) {
+		if (name?.length) {
 			updateData.name = name;
+		}
+		if (phone?.length) {
+			updateData.phone = phone;
+		}
+
+		if (address?.length) {
+			updateData.address = address;
+		}
+
+		if (city?.length) {
+			updateData.city = city;
+		}
+
+		if (zipcode?.length) {
+			updateData.zipcode = parseInt(zipcode);
 		}
 
 		const updatedUser = await prisma.user.update({
 			where: {
-				email: currentEmail
+				id: parseInt(id)
 			},
 			data: updateData
 		});
@@ -117,17 +149,26 @@ const updateUser = async (req, res) => {
 };
 
 const getUserById = async (req, res) => {
-	try {
-		const userId = parseInt(req.params.id);
+  try {
+    const userId = parseInt(req.params.id);
 
-		const user = await prisma.user.findUnique({
-			where: { id: userId },
-		});
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        phone: true,
+        address: true,
+        city: true,
+        zipcode: true,
+      },
+    });
 
-		res.json(user);
-	} catch (error) {
-		res.status(500).json({ error: 'An error occurred' });
-	}
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
 };
 
 const authMiddleware = async (req, res, next) => {

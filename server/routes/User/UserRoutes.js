@@ -6,7 +6,7 @@ router.post('/register', userController.createUser);
 router.get('/users', userController.getUsers);
 router.post('/login', userController.loginUser);
 router.get('/user/:id', userController.getUserById);
-router.put('/user-update/:email', userController.updateUser)
+router.put('/user-update/:id', userController.updateUser)
 
 router.get('/user-profile', userController.authMiddleware, async (req, res) => {
 	const userData = {

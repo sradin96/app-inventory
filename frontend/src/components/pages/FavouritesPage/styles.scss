@@ -1,0 +1,23 @@
+@import '../../../styles/base/variables';
+
+.favourites-page {
+	padding: 60px 0;
+}
+
+.favourites-page__title {
+	text-align: center;
+}
+
+.favourites-page__link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: $blue;
+	font-weight: 700;
+	text-decoration: underline;
+}
+
+.favourites-page__holder {
+	display: flex;
+	flex-wrap: wrap;
+}

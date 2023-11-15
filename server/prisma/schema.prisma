@@ -12,25 +12,98 @@ model User {
   username  String
   email     String      @unique
   password  String
+	phone     String?
+	address   String?
+	city      String?
+	zipcode   Int?
+	blocked   Boolean
   items     itemUser[]
 	userRoles userRoles[]
+	favourites Favourites[]
+	soldItem   SoldItem[]
 }
 
 model Item {
-  id          Int         @id @default(autoincrement())
-  name        String
-  brand       String
-  description String
-  quantity    Int
-  users       itemUser[]
-	itemEvent   itemEvent[]
+  id            Int         @id @default(autoincrement())
+  name          String
+  brand         String
+  description   String
+  quantity      Int
+	price         Int
+	discountPrice Int
+	image         Bytes[]
+	deleted       Boolean
+  users         itemUser[]
+	itemEvent     itemEvent[]
+	itemDiscount  itemDiscount[]
+	itemCategory  itemCategory[]
+	favourites    Favourites[]
+	soldItem      SoldItem[]
 }
 
+model SoldItem {
+  id	      Int @id @default(autoincrement())
+	itemId    Int
+	userEmail String
+	receiptId Int
+	receipt   Receipt @relation(fields: [receiptId], references: [id])
+	user 	    User @relation(fields: [userEmail], references: [email])
+	item 	    Item @relation(fields: [itemId], references: [id])
+}
+
+model Receipt {
+  id	       Int @id @default(autoincrement())
+	receiptId  String @unique
+	date       DateTime
+	totalPrice Int
+	phone      String
+	address    String
+	city       String
+	zipcode    Int
+	soldItem   SoldItem[]
+}
+
+model Favourites {
+	id     Int @id @default(autoincrement())
+	itemId Int
+	userId Int
+	user   User @relation(fields: [userId], references: [id])
+	item 	 Item @relation(fields: [itemId], references: [id])
+}
+
+model Category {
+	id   Int         @id @default(autoincrement())
+	name String
+	itemCategory itemCategory[]
+}
+
+model itemCategory {
+	id         Int         @id @default(autoincrement())
+	itemId 		 Int
+	categoryId Int
+	category   Category @relation(fields: [categoryId], references: [id])
+	item 			 Item @relation(fields: [itemId], references: [id])
+}
+
+model Discount {
+  id     Int         @id @default(autoincrement())
+	value  Int
+	itemDiscount itemDiscount[]
+}
+
+model itemDiscount {
+  id     		 Int         @id @default(autoincrement())
+	itemId 		 Int
+	discountId Int
+	event      Discount @relation(fields: [discountId], references: [id])
+	item 			 Item @relation(fields: [itemId], references: [id])
+}
 model Event {
 	id 					Int      @id @default(autoincrement())
 	name 				String
 	startDate		DateTime
 	endDate     DateTime
+	image       Bytes[]
 	itemEvent   itemEvent[]
 }
 
