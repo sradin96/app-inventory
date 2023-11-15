@@ -2,6 +2,8 @@
 
 .create-item__form {
 	background-color: $white;
+	border-radius: 12px;
+	box-shadow: 4px 1px 21px rgba($black, .1);
 	padding: 30px;
 	width: 640px;
 	margin: 0 auto;
@@ -27,6 +29,7 @@
 		border: none;
 		padding: 0;
 		border-radius: 0;
+		color: $blue;
 	}
 }
 
@@ -41,4 +44,8 @@
 	border-radius: 100px;
 	padding: 5px 10px;
 	font-size: 16px;
+}
+
+.create-item__btn {
+	margin-top: 20px;
 }

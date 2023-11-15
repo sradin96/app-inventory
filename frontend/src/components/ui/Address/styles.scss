@@ -1,0 +1,59 @@
+@import '../../../styles/base/variables';
+
+.address__current {
+    padding: 20px;
+    border-radius: 12px;
+    background-color: $white;
+    box-shadow: 4px 1px 21px rgba($black, .1);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.address__current-content {
+    width: 80%;
+    margin-right: 2%;
+    border: 1px solid rgba($black, .1);
+    border-radius: 12px;
+}
+
+.address__current-btn {
+    border: 1px solid rgba($black, .1);
+    border-radius: 12px;
+    width: 18%;
+    background-color: $white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1/1;
+    color: $blue;
+    font-weight: 700;
+    font-size: 22px;
+
+    svg {
+        margin-top: 10px;
+    }
+}
+
+.address__current-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid rgba($black, .1);
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.address__current-item-text {
+    font-size: 16px;
+    color: $blue;
+}
+
+.address__current-item-text--bold {
+    font-weight: 700;
+}

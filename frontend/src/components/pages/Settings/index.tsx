@@ -2,9 +2,12 @@ import { FormEvent, useContext, useState } from "react";
 import InputField from "../../ui/InputField";
 import { AuthContext } from "../../../store/auth-context";
 import axios from "axios";
+import { useCookies } from "react-cookie";
+import './styles.scss'
 
 const Settings = () => {
-	const { userId } = useContext(AuthContext)
+	const { userId, setCurrentUser, currentUser } = useContext(AuthContext)
+	const [cookies, setCookies] = useCookies(['user'])
 
 	const inputs = [
 		{ type: "text", label: "Ime:", for: "username" },
@@ -52,24 +55,63 @@ const Settings = () => {
 	const handleUpdateUser = async (e: FormEvent) => {
 		e.preventDefault();
 		try {
-			await axios.put(`http://localhost:3001/user-update/${userId}`, formData);
+			const updatedFormData = { ...formData };
+			if (!updatedFormData.password) {
+				delete (updatedFormData as { password?: string }).password;
+			}
+			const response = await axios.put(`http://localhost:3001/user-update/${userId}`, formData);
+			setCurrentUser(response.data)
+			if (formData.username === response.data.username) {
+				setCookies('user', response.data.username);
+			}
 		} catch (error) {
 			console.error(error);
 		}
 	}
 
 	return (
-		<div className="address-form">
+		<div className="settings-page">
 			<div className="wrap">
-				<h4 className="address-form__title">Izmenite podatke</h4>
-				<form action={`/user-update/${userId}`} method="put" className="address-form__form" onSubmit={handleUpdateUser}>
-					{inputs.map((input) => {
-						return (
-							<InputField key={input.for} input={input} handleChange={handleChange} />
-						);
-					})}
-					<button className="btn address-form__btn" type="submit">Sačuvajte promene</button>
-				</form>
+				<div className="settings-page__container">
+					<div className="settings-page__form-holder">
+						<h4 className="settings-page__title">Izmenite podatke</h4>
+						<form action={`/user-update/${userId}`} method="put" className="settings-page__form" onSubmit={handleUpdateUser}>
+							{inputs.map((input) => {
+								return (
+									<InputField key={input.for} input={input} handleChange={handleChange} />
+								);
+							})}
+							<button className="btn settings-page__btn" type="submit">Sačuvajte promene</button>
+						</form>
+					</div>
+					<div className="settings-page__content">
+						<h4 className="settings-page__title">Trenutni podaci</h4>
+						<div className="settings-page__content-holder">
+							<span className="settings-page__content-text">Ime</span>
+							<span className="settings-page__content-text settings-page__content-text--bold">{currentUser?.username}</span>
+						</div>
+						<div className="settings-page__content-holder">
+							<span className="settings-page__content-text">Email</span>
+							<span className="settings-page__content-text settings-page__content-text--bold">{currentUser?.email}</span>
+						</div>
+						<div className="settings-page__content-holder">
+							<span className="settings-page__content-text">Telefon</span>
+							<span className="settings-page__content-text settings-page__content-text--bold">{currentUser?.phone}</span>
+						</div>
+						<div className="settings-page__content-holder">
+							<span className="settings-page__content-text">Adresa</span>
+							<span className="settings-page__content-text settings-page__content-text--bold">{currentUser?.address}</span>
+						</div>
+						<div className="settings-page__content-holder">
+							<span className="settings-page__content-text">Grad</span>
+							<span className="settings-page__content-text settings-page__content-text--bold">{currentUser?.city}</span>
+						</div>
+						<div className="settings-page__content-holder">
+							<span className="settings-page__content-text">Poštanski broj</span>
+							<span className="settings-page__content-text settings-page__content-text--bold">{currentUser?.zipcode}</span>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	)

@@ -1,0 +1,63 @@
+@import '../../../styles/base/variables';
+
+.settings-page {
+    padding: 60px 0;
+}
+
+.settings-page__container {
+    display: flex;
+}
+
+.settings-page__form-holder {
+    background-color: $white;
+    box-shadow: 4px 1px 21px rgba($black, .1);
+    padding: 20px;
+    border-radius: 12px;
+    width: 59%;
+    margin-right: 2%;
+}
+
+.settings-page__form {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.settings-page__content {
+    background-color: $white;
+    box-shadow: 4px 1px 21px rgba($black, .1);
+    width: 39%;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.settings-page__content-holder {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba($black, .1);
+    padding-bottom: 10px;
+
+    &:not(:last-child) {
+        margin-bottom: 10px;
+    }
+}
+
+.settings-page__btn {
+    margin-left: auto;
+    margin-top: 10px;
+}
+
+.settings-page__title {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: $red-light;
+}
+
+.settings-page__content-text {
+    font-size: 18px;
+}
+
+.settings-page__content-text--bold {
+    font-weight: 700;
+    color: $blue;
+}

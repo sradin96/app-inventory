@@ -1,139 +1,140 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  id        Int         @id @default(autoincrement())
-  username  String
-  email     String      @unique
-  password  String
-	phone     String?
-	address   String?
-	city      String?
-	zipcode   Int?
-	blocked   Boolean
-  items     itemUser[]
-	userRoles userRoles[]
-	favourites Favourites[]
-	soldItem   SoldItem[]
+    id         Int          @id @default(autoincrement())
+    username   String
+    email      String       @unique
+    password   String
+    phone      String?
+    address    String?
+    city       String?
+    zipcode    Int?
+    blocked    Boolean
+    items      itemUser[]
+    userRoles  userRoles[]
+    favourites Favourites[]
+    soldItem   SoldItem[]
 }
 
 model Item {
-  id            Int         @id @default(autoincrement())
-  name          String
-  brand         String
-  description   String
-  quantity      Int
-	price         Int
-	discountPrice Int
-	image         Bytes[]
-	deleted       Boolean
-  users         itemUser[]
-	itemEvent     itemEvent[]
-	itemDiscount  itemDiscount[]
-	itemCategory  itemCategory[]
-	favourites    Favourites[]
-	soldItem      SoldItem[]
+    id            Int            @id @default(autoincrement())
+    name          String
+    brand         String
+    description   String
+    quantity      Int
+    price         Int
+    discountPrice Int
+    image         Bytes[]
+    deleted       Boolean
+    users         itemUser[]
+    itemEvent     itemEvent[]
+    itemDiscount  itemDiscount[]
+    itemCategory  itemCategory[]
+    favourites    Favourites[]
+    soldItem      SoldItem[]
 }
 
 model SoldItem {
-  id	      Int @id @default(autoincrement())
-	itemId    Int
-	userEmail String
-	receiptId Int
-	receipt   Receipt @relation(fields: [receiptId], references: [id])
-	user 	    User @relation(fields: [userEmail], references: [email])
-	item 	    Item @relation(fields: [itemId], references: [id])
+    id        Int     @id @default(autoincrement())
+    itemId    Int
+    userEmail String
+    receiptId Int
+    receipt   Receipt @relation(fields: [receiptId], references: [id])
+    user      User    @relation(fields: [userEmail], references: [email])
+    item      Item    @relation(fields: [itemId], references: [id])
 }
 
 model Receipt {
-  id	       Int @id @default(autoincrement())
-	receiptId  String @unique
-	date       DateTime
-	totalPrice Int
-	phone      String
-	address    String
-	city       String
-	zipcode    Int
-	soldItem   SoldItem[]
+    id         Int        @id @default(autoincrement())
+    receiptId  String     @unique
+    date       DateTime
+    totalPrice Int
+    phone      String
+    address    String
+    city       String
+    zipcode    Int
+    soldItem   SoldItem[]
 }
 
 model Favourites {
-	id     Int @id @default(autoincrement())
-	itemId Int
-	userId Int
-	user   User @relation(fields: [userId], references: [id])
-	item 	 Item @relation(fields: [itemId], references: [id])
+    id     Int  @id @default(autoincrement())
+    itemId Int
+    userId Int
+    user   User @relation(fields: [userId], references: [id])
+    item   Item @relation(fields: [itemId], references: [id])
 }
 
 model Category {
-	id   Int         @id @default(autoincrement())
-	name String
-	itemCategory itemCategory[]
+    id           Int            @id @default(autoincrement())
+    name         String
+    itemCategory itemCategory[]
 }
 
 model itemCategory {
-	id         Int         @id @default(autoincrement())
-	itemId 		 Int
-	categoryId Int
-	category   Category @relation(fields: [categoryId], references: [id])
-	item 			 Item @relation(fields: [itemId], references: [id])
+    id         Int      @id @default(autoincrement())
+    itemId     Int
+    categoryId Int
+    category   Category @relation(fields: [categoryId], references: [id])
+    item       Item     @relation(fields: [itemId], references: [id])
 }
 
 model Discount {
-  id     Int         @id @default(autoincrement())
-	value  Int
-	itemDiscount itemDiscount[]
+    id           Int            @id @default(autoincrement())
+    value        Int
+    itemDiscount itemDiscount[]
 }
 
 model itemDiscount {
-  id     		 Int         @id @default(autoincrement())
-	itemId 		 Int
-	discountId Int
-	event      Discount @relation(fields: [discountId], references: [id])
-	item 			 Item @relation(fields: [itemId], references: [id])
+    id         Int      @id @default(autoincrement())
+    itemId     Int
+    discountId Int
+    event      Discount @relation(fields: [discountId], references: [id])
+    item       Item     @relation(fields: [itemId], references: [id])
 }
+
 model Event {
-	id 					Int      @id @default(autoincrement())
-	name 				String
-	startDate		DateTime
-	endDate     DateTime
-	image       Bytes[]
-	itemEvent   itemEvent[]
+    id        Int         @id @default(autoincrement())
+    name      String
+    startDate DateTime
+    endDate   DateTime
+    image     Bytes[]
+    itemEvent itemEvent[]
 }
 
 model itemEvent {
-	id 					Int      @id @default(autoincrement())
-	eventId 		Int
-	itemId			Int
-	event     	Event @relation(fields: [eventId], references: [id])
-	item 				Item @relation(fields: [itemId], references: [id])
+    id      Int   @id @default(autoincrement())
+    eventId Int
+    itemId  Int
+    event   Event @relation(fields: [eventId], references: [id])
+    item    Item  @relation(fields: [itemId], references: [id])
 }
 
 model itemUser {
-  id         Int     @id @default(autoincrement())
-  userId     Int
-  itemId     Int
-  itemNumber Int?
-  user       User    @relation(fields: [userId], references: [id])
-  item       Item    @relation(fields: [itemId], references: [id])
+    id         Int  @id @default(autoincrement())
+    userId     Int
+    itemId     Int
+    itemNumber Int?
+    user       User @relation(fields: [userId], references: [id])
+    item       Item @relation(fields: [itemId], references: [id])
 }
 
 model Roles {
-  id         Int     @id @default(autoincrement())
-	name 			 String
-	userRoles  userRoles[]
+    id        Int         @id @default(autoincrement())
+    name      String
+    userRoles userRoles[]
 }
 
 model userRoles {
-  id         Int     @id @default(autoincrement())
-	userId     Int
-	roleId     Int
-	user       User    @relation(fields: [userId], references: [id])
-  roles      Roles   @relation(fields: [roleId], references: [id])
+    id     Int   @id @default(autoincrement())
+    userId Int
+    roleId Int
+    user   User  @relation(fields: [userId], references: [id])
+    roles  Roles @relation(fields: [roleId], references: [id])
 }

@@ -102,7 +102,7 @@ const loginUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
 	try {
-		const { email, password, name, phone, address, city, zipcode } = req.body;
+		const { email, password, username, phone, address, city, zipcode } = req.body;
 		const { id } = req.params;
 		let updateData = {};
 
@@ -115,8 +115,8 @@ const updateUser = async (req, res) => {
 			updateData.password = hashedPassword;
 		}
 
-		if (name?.length) {
-			updateData.name = name;
+		if (username?.length) {
+			updateData.username = username;
 		}
 		if (phone?.length) {
 			updateData.phone = phone;
