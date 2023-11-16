@@ -1,0 +1,28 @@
+@import '../../../styles/base/variables';
+
+.cart-success {
+    padding: 20px;
+    border-radius: 12px;
+    background-color: $white;
+    box-shadow: 4px 1px 21px rgba($black, .1);
+}
+
+.cart-success__title {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: $blue;
+}
+
+.cart-success__text {
+    text-align: center;
+    color: $blue;
+    margin-bottom: 10px;
+}
+
+.cart-success__link {
+    color: $red-light;
+    text-align: center;
+    display: block;
+    text-decoration: underline;
+}

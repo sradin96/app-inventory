@@ -1,14 +1,9 @@
 import { Dispatch, ReactNode, SetStateAction, createContext, useEffect, useMemo, useState } from "react";
-import { ItemType } from "../types/types";
-
-type CartItem = {
-  item: ItemType;
-  quantity: number;
-};
+import { CartItemType, ItemType } from "../types/types";
 
 type CartContextProps = {
-  cartItems: CartItem[];
-  setCartItems: Dispatch<SetStateAction<CartItem[]>>;
+  cartItems: CartItemType[];
+  setCartItems: Dispatch<SetStateAction<CartItemType[]>>;
   addToCart: (item: ItemType) => void;
   increaseQuantity: (item: ItemType) => void;
   decreaseQuantity: (item: ItemType) => void;
@@ -23,7 +18,7 @@ export const CartContext = createContext<CartContextProps>({
 });
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+  const [cartItems, setCartItems] = useState<CartItemType[]>(() => {
     const storedCartItems = localStorage.getItem("cartItems");
     return storedCartItems ? JSON.parse(storedCartItems) : [];
   });

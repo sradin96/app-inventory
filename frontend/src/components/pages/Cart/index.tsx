@@ -9,6 +9,7 @@ import { FaChevronLeft } from "react-icons/fa";
 import "./styles.scss";
 import axios from "axios";
 import CartSuccess from "../../ui/CartSuccess";
+import CartPreview from "../../ui/CartPreview";
 
 const Cart = () => {
   const { cartItems } = useContext(CartContext);
@@ -46,18 +47,7 @@ const Cart = () => {
   } else if (cartStep === 1) {
     content = <Address />;
   } else if (cartStep === 2) {
-    content = <div>
-			<div className="cart-page__cart-holder">
-        {cartItems.length > 0 ? (
-          cartItems.map((item) => (
-            <CartItem item={item.item} key={item.item.id} />
-          ))
-        ) : (
-          <p>Prazna Korpa</p>
-        )}
-      </div>
-			<Address />
-		</div>;
+    content = <CartPreview cartItems={cartItems} currentUser={currentUser} />
   } else {
     content = <CartSuccess />;
   }

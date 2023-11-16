@@ -27,3 +27,8 @@ export type User = {
   city?: string | undefined;
   zipcode?: number | undefined;
 }
+
+export type CartItemType = {
+  item: ItemType;
+  quantity: number;
+};

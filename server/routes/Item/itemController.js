@@ -86,7 +86,7 @@ const getItemById = async (req, res) => {
 const getItemsByQuery = async (req, res) => {
 	try {
 		const { name, page, sort } = req.query;
-		const perPage = 3;
+		const perPage = 10;
 
 		const filter = {};
 
@@ -108,7 +108,7 @@ const getItemsByQuery = async (req, res) => {
     }
 
 		const skip = page ? (page - 1) * perPage : 0;
-    const take = perPage ? parseInt(perPage) : 10;
+    	const take = perPage ? parseInt(perPage) : 10;
 
 		let orderBy = {};
 

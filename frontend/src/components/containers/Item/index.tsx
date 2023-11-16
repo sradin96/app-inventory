@@ -5,6 +5,7 @@ import {
   FaShoppingCart,
   FaHeart,
   FaRegHeart,
+  FaCartArrowDown
 } from "react-icons/fa";
 import { AuthContext } from "../../../store/auth-context";
 import { ItemType } from "../../../types/types";
@@ -27,7 +28,8 @@ const Item = ({ item }: ItemProps) => {
 	const [isPopupVisible, setPopupVisible] = useState(false);
 	const [popupMessage, setPopupMessage] = useState("");
 
-	const { addToCart } = useContext(CartContext)
+	const { addToCart, cartItems } = useContext(CartContext)
+  const isInCart = cartItems.some((cartItem) => cartItem.item.id === item.id);
 
   useEffect(() => {
     if (item?.image && Array.isArray(item.image)) {
@@ -110,8 +112,11 @@ const Item = ({ item }: ItemProps) => {
           <span className="item__price">{item.price.toLocaleString('rs').replaceAll(',', '.')},00</span>
           <span className="item__price-currency">RSD</span>
         </div>
-        <button type="button" className="item__cart-btn" onClick={() => addToCart(item)}>
-          <FaShoppingCart />
+        <button type="button" className={`item__cart-btn ${isInCart && 'item__cart-btn--in-cart'}`} onClick={() => addToCart(item)}>
+          {
+            isInCart ?<FaCartArrowDown />
+            : <FaShoppingCart />
+          }
         </button>
       </div>
     </div>
