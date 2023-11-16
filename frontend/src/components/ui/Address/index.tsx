@@ -43,9 +43,9 @@ const Address = () => {
                         <span className='address__current-item-text address__current-item-text--bold'>{currentUser.zipcode}</span>
                     </li>
                 </ul>
-                <button type='button' className="address__current-btn" onClick={handleFormVisibility}>
+                <button type='button' className="address__current-btn btn" onClick={handleFormVisibility}>
                     <FaAddressCard />
-                    Forma
+                    Izmeni podatke
                 </button>
             </div>
         }

@@ -6,35 +6,24 @@
     background-color: $white;
     box-shadow: 4px 1px 21px rgba($black, .1);
     margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
 }
 
 .address__current-content {
-    width: 80%;
-    margin-right: 2%;
     border: 1px solid rgba($black, .1);
     border-radius: 12px;
+		margin-bottom: 20px;
 }
 
 .address__current-btn {
-    border: 1px solid rgba($black, .1);
-    border-radius: 12px;
-    width: 18%;
-    background-color: $white;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    aspect-ratio: 1/1;
-    color: $blue;
-    font-weight: 700;
-    font-size: 22px;
+		align-items: center;
+		justify-content: center;
+		margin-left: auto;
 
-    svg {
-        margin-top: 10px;
-    }
+		svg {
+			margin-right: 6px;
+			font-size: 20px;
+		}
 }
 
 .address__current-item {

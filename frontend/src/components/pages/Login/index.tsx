@@ -43,11 +43,11 @@ const Login = () => {
   };
 
 	return (
-			<div className="content-holder">
-				<div className="wrap">
+		<div className="content-holder">
+			<div className="wrap">
 				<Form isLogin={true} buttonValue='Prijavite se' password={formData.password} email={formData.email} handleSubmit={handleSubmit} handleChange={handleChange} />
-				</div>
 			</div>
+		</div>
 	)
 }
 

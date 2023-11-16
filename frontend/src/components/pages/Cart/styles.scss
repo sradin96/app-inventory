@@ -4,10 +4,31 @@
 	padding: 60px 0;
 }
 
+.cart-page__back {
+	position: absolute;
+	left: 0;
+	top: -40px;
+	background-color: transparent;
+	border: none;
+	color: $blue;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 30px;
+	font-size: 18px;
+	font-weight: 700;
+
+	svg {
+		font-size: 12px;
+		margin-right: 6px;
+	}
+}
+
 .cart-page__top {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	position: relative;
 }
 
 .cart-page__steps {

@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../../store/auth-context";
 import Address from "../../ui/Address";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { FaChevronLeft } from "react-icons/fa";
 import "./styles.scss";
+import axios from "axios";
+import CartSuccess from "../../ui/CartSuccess";
 
 const Cart = () => {
   const { cartItems } = useContext(CartContext);
@@ -14,7 +17,8 @@ const Cart = () => {
   const stepCount = [
     { number: 0, text: "Korpa" },
     { number: 1, text: "Adresa pošiljke" },
-    { number: 2, text: "Pregled Korpe" },
+    { number: 2, text: "Pregled korpe" },
+    { number: 3, text: "Uspešna porudžbina" },
   ];
 
   const totalPrice = cartItems.reduce((acc, item) => {
@@ -42,19 +46,59 @@ const Cart = () => {
   } else if (cartStep === 1) {
     content = <Address />;
   } else if (cartStep === 2) {
-    content = <div>text2</div>;
+    content = <div>
+			<div className="cart-page__cart-holder">
+        {cartItems.length > 0 ? (
+          cartItems.map((item) => (
+            <CartItem item={item.item} key={item.item.id} />
+          ))
+        ) : (
+          <p>Prazna Korpa</p>
+        )}
+      </div>
+			<Address />
+		</div>;
   } else {
-    content = <div>text3</div>;
+    content = <CartSuccess />;
   }
+
+	const handleSendEmail = async () => {
+    try {
+			const cartItemsText = cartItems.map(item => `${item.item.name} - Quantity: ${item.quantity}`).join('\n');
+			const totalPriceText = `Total Price: ${totalPrice.toLocaleString("rs").replaceAll(",", ".")},00 RSD`;
+
+	    const message = `${cartItemsText}\n\n${totalPriceText}`;
+      await axios.post('http://localhost:3001/send-email', { to: currentUser?.email, subject: 'Poručeni proizvodi', message: message });
+      setCartStep(3)
+    } catch (error) {
+      console.error(error);
+      alert('Error sending email');
+    }
+  };
 
   const handleNextStep = () => {
     setCartStep((prevStep) => prevStep + 1);
+		if(cartStep === 2) {
+			handleSendEmail()
+		}
   };
+
+	const handlePrevStep = () => {
+		if(cartStep === 0) return;
+		setCartStep((prevStep) => prevStep - 1);
+	}
 
   return (
     <div className="cart-page">
       <div className="wrap">
         <div className="cart-page__top">
+					{
+						cartStep !== 0 &&
+						<button type="button" className="cart-page__back" onClick={handlePrevStep}>
+							<FaChevronLeft />
+							Nazad
+						</button>
+					}
           <h1 className="cart-page__title title">Vaša korpa</h1>
           <ul className="cart-page__steps">
             {stepCount.map((step) => {
@@ -111,9 +155,13 @@ const Cart = () => {
               className="cart-page__btn btn"
               type="button"
               onClick={handleNextStep}
-			  disabled={cartItems.length === 0 || (cartStep === 1 && currentUser?.address?.length !== undefined && currentUser.address.length === 0)}
+							disabled={cartItems.length === 0 || (cartStep === 1 && currentUser?.address?.length !== undefined && currentUser.address.length === 0)}
             >
-              Nastavite
+							{
+								cartStep !== 2 ?
+              	"Nastavite"
+								: "Poručite robu"
+							}
             </button>
           </div>
         </div>

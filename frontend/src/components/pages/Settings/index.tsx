@@ -76,7 +76,7 @@ const Settings = () => {
 					<div className="settings-page__form-holder">
 						<h4 className="settings-page__title">Izmenite podatke</h4>
 						<form action={`/user-update/${userId}`} method="put" className="settings-page__form" onSubmit={handleUpdateUser}>
-							{inputs.map((input) => {
+						{inputs.map((input) => {
 								return (
 									<InputField key={input.for} input={input} handleChange={handleChange} />
 								);

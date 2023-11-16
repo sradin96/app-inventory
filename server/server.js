@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 const itemRoutes = require('./routes/Item/itemsRoutes');
 const userRoutes = require('./routes/User/UserRoutes');
@@ -9,6 +10,7 @@ const roleRoutes = require('./routes/Roles/RolesRoutes');
 const discountRoutes = require('./routes/Discount/DiscountRoutes');
 const categoryRoutes = require('./routes/Category/CategoryRoutes');
 const favouritesRoutes = require('./routes/Favourites/FavouritesRoutes');
+const mailSenderRoutes = require('./routes/MailSender/MailSenderRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -19,6 +21,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(bodyParser.json({ limit: '5mb' }));
 
 app.options('*', cors());
 
@@ -33,6 +37,7 @@ app.use('', roleRoutes);
 app.use('', discountRoutes);
 app.use('', categoryRoutes);
 app.use('', favouritesRoutes);
+app.use('', mailSenderRoutes);
 
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
